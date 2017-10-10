@@ -8,7 +8,7 @@ characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$
 bcolors = BColors()
 pg.init()
 SIZE = 200
-icon = pg.image.load('/home/andrew/virtual_companion/idle.png')
+icon = pg.image.load('virtual_companion/idle.png')
 screen = pg.display.set_mode([SIZE, SIZE])
 pg.display.set_caption('Virtual companion')
 pg.display.set_icon(icon)
@@ -57,11 +57,11 @@ def open_tlauncher():
 
 class Companion:
     def __init__(self):
-        self.sad = pg.image.load('/home/andrew/virtual_companion/sad.png')
-        self.idle = pg.image.load('/home/andrew/virtual_companion/idle.png')
-        self.conf = pg.image.load('/home/andrew/virtual_companion/confused.png')
-        self.happy = pg.image.load('/home/andrew/virtual_companion/happy.png')
-        self.angry = pg.image.load('/home/andrew/virtual_companion/angry.png')
+        self.sad = pg.image.load('virtual_companion/sad.png')
+        self.idle = pg.image.load('virtual_companion/idle.png')
+        self.conf = pg.image.load('virtual_companion/confused.png')
+        self.happy = pg.image.load('virtual_companion/happy.png')
+        self.angry = pg.image.load('virtual_companion/angry.png')
         self.sad = pg.transform.scale(self.sad, [SIZE, SIZE])
         self.idle = pg.transform.scale(self.idle, [SIZE, SIZE])
         self.conf = pg.transform.scale(self.conf, [SIZE, SIZE])
@@ -133,4 +133,4 @@ while True:
         companion.draw_face('idle')
         companion.say('How about ' + gen_pswd() + ' ?', 3)
     elif cmd == 'change name':
-        companion.change_name(input(companion.name + "Ok! What's my new name?"))
+        companion.change_name(input(companion.name + ": Ok! What's my new name?"))
