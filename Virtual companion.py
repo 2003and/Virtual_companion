@@ -6,12 +6,13 @@ from bcolors import BColors
 
 characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()'
 bcolors = BColors()
+conf = open('config', 'r')
 pg.init()
-SIZE = 200
-icon = pg.image.load('virtual_companion/idle.png')
+SIZE = int(conf.readline())
+rawf = 'Faces_RAW'+conf.readline()+'.png'
 screen = pg.display.set_mode([SIZE, SIZE])
 pg.display.set_caption('Virtual companion')
-pg.display.set_icon(icon)
+
 
 
 def math():
@@ -35,7 +36,7 @@ def math():
     elif op == '%':
         oup = ipt1 // 100 * ipt2
     else:
-        oup = 'none, you gave me unknown operation'
+        oup = 'none, you gave me an unknown operation'
     print('The answer is', oup)
 
 
@@ -57,29 +58,24 @@ def open_tlauncher():
 
 class Companion:
     def __init__(self):
-        self.sad = pg.image.load('virtual_companion/sad.png')
-        self.idle = pg.image.load('virtual_companion/idle.png')
-        self.conf = pg.image.load('virtual_companion/confused.png')
-        self.happy = pg.image.load('virtual_companion/happy.png')
-        self.angry = pg.image.load('virtual_companion/angry.png')
-        self.sad = pg.transform.scale(self.sad, [SIZE, SIZE])
-        self.idle = pg.transform.scale(self.idle, [SIZE, SIZE])
-        self.conf = pg.transform.scale(self.conf, [SIZE, SIZE])
-        self.happy = pg.transform.scale(self.happy, [SIZE, SIZE])
-        self.angry = pg.transform.scale(self.angry, [SIZE, SIZE])
+        self.raw = pg.image.load(rawf)
+        self.faces = []
+        for i in range(3):
+            f = pg.Surface([20, 20])
+            f.blit(self.raw, [-i * 20, 0])
+            f = pg.transform.scale(f, [SIZE, SIZE])
+            self.faces.append(f)
         self.name = 'Companion'
+        icon = self.faces[0]
+        pg.display.set_icon(icon)
 
     def draw_face(self, which='idle'):
-        if which == 'sad':
-            screen.blit(self.sad, [0, 0])
-        elif which == 'idle':
-            screen.blit(self.idle, [0, 0])
-        elif which == 'conf':
-            screen.blit(self.conf, [0, 0])
-        elif which == 'happy':
-            screen.blit(self.happy, [0, 0])
-        else:
-            screen.blit(self.angry, [0, 0])
+        if which == 'idle':
+            screen.blit(self.faces[0], [0, 0])
+        if which == 'happy':
+            screen.blit(self.faces[1], [0, 0])
+        elif which == 'sad':
+            screen.blit(self.faces[2], [0, 0])
         pg.display.flip()
 
     def change_name(self, new_name):
@@ -96,13 +92,12 @@ print(bcolors.OKBLUE)
 companion.say("Hi! I'm your new companion!", 1)
 companion.say("You can type me 'quit' to quit", 1)
 companion.say("Otherwise it's impossible", 1)
-companion.say("""Also, it's HIGHLY recommended to check the
+companion.say("""Also, it's HIGHLY recommended to check the 
 "always on top" on the companion's face's window""", 1)
 while True:
     companion.draw_face()
     cmd = input(companion.name + ': So?\n')
     if cmd == 'Knock knock':
-        companion.draw_face('conf')
         companion.say("Who's there?", 1)
         companion.say(input() + ' who?', 1)
         input()
@@ -133,4 +128,9 @@ while True:
         companion.draw_face('idle')
         companion.say('How about ' + gen_pswd() + ' ?', 3)
     elif cmd == 'change name':
-        companion.change_name(input(companion.name + ": Ok! What's my new name?"))
+        companion.change_name(input(companion.name + ":Ok! What's my new name?"))
+    else:
+        companion.draw_face('sad')
+        companion.say("Sorry! I don't know such command!", 2)
+        companion.draw_face('happy')
+        companion.say('Maybe, you could try to suggest it?', 2)
