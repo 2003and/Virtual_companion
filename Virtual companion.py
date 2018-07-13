@@ -8,8 +8,8 @@ characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$
 bcolors = BColors()
 conf = open('config', 'r')
 pg.init()
-SIZE = int(conf.readline())
-rawf = 'Faces_RAW' + conf.readline() + '.png'
+SIZE = int(conf.readline(3))
+rawf = 'Faces_RAW' + conf.readline(1) + '.png'
 screen = pg.display.set_mode([SIZE, SIZE])
 pg.display.set_caption('Virtual companion')
 
