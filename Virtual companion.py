@@ -9,10 +9,9 @@ bcolors = BColors()
 conf = open('config', 'r')
 pg.init()
 SIZE = int(conf.readline())
-rawf = 'Faces_RAW'+conf.readline()+'.png'
+rawf = 'Faces_RAW' + conf.readline() + '.png'
 screen = pg.display.set_mode([SIZE, SIZE])
 pg.display.set_caption('Virtual companion')
-
 
 
 def math():
