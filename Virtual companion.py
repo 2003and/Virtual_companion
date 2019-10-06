@@ -9,7 +9,9 @@ bcolors = BColors()
 conf = open('config', 'r')
 pg.init()
 SIZE = int(conf.readline(3))
-rawf = 'Faces_RAW' + conf.readline(1) + '.png'
+conf.readline()
+SKIN = int(conf.readline(1))
+rawf = 'Faces_RAW.png'
 screen = pg.display.set_mode([SIZE, SIZE])
 pg.display.set_caption('Virtual companion')
 
@@ -41,7 +43,7 @@ def math():
 
 def gen_pswd():
     pswd = bcolors.OKGREEN + ''
-    len_o_pswd = randint(5, 15)
+    len_o_pswd = randint(8, 18)
     for i in range(len_o_pswd):
         pswd += characters[randint(0, len(characters) - 1)]
     return pswd + bcolors.OKBLUE
@@ -61,7 +63,7 @@ class Companion:
         self.faces = []
         for i in range(3):
             f = pg.Surface([20, 20])
-            f.blit(self.raw, [-i * 20, 0])
+            f.blit(self.raw, [-i * 20, (SKIN-1)*-20])
             f = pg.transform.scale(f, [SIZE, SIZE])
             self.faces.append(f)
         self.name = 'Companion'
@@ -102,7 +104,7 @@ while True:
         input()
         companion.draw_face('happy')
         companion.say('Ha ha! Got me on that one!', 0)
-        sleep(3)
+        sleep(2)
     elif cmd == 'quit':
         companion.say('See you later' + bcolors.ENDC, 0)
         exit()
@@ -132,4 +134,4 @@ while True:
         companion.draw_face('sad')
         companion.say("Sorry! I don't know such command!", 2)
         companion.draw_face('happy')
-        companion.say('Maybe, you could try to suggest it?', 2)
+        companion.say('Maybe, you should try to suggest it?', 2)
